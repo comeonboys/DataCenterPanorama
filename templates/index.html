@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据中心运行监控大屏</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/theme/dark.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>数据中心运行监控大屏</h1>
+            <div class="meta">
+                <span id="latest-time">最新数据：--</span>
+                <button id="refresh-btn" class="btn">刷新</button>
+            </div>
+        </header>
+
+        <section class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-label">主机总数</div>
+                <div class="kpi-value" id="kpi-hosts">--</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">监控记录数</div>
+                <div class="kpi-value" id="kpi-records">--</div>
+            </div>
+            <div class="kpi-card alert">
+                <div class="kpi-label">告警主机</div>
+                <div class="kpi-value" id="kpi-alerts">--</div>
+            </div>
+            <div class="kpi-card healthy">
+                <div class="kpi-label">健康主机</div>
+                <div class="kpi-value" id="kpi-healthy">--</div>
+            </div>
+        </section>
+
+        <section class="grid-row">
+            <div class="panel wide">
+                <div class="panel-header">
+                    <h3>指标趋势</h3>
+                    <div class="controls">
+                        <select id="trend-metric"></select>
+                        <select id="trend-hours">
+                            <option value="">全部</option>
+                            <option value="24" selected>近24小时</option>
+                            <option value="72">近3天</option>
+                            <option value="168">近7天</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chart-trend" class="chart"></div>
+            </div>
+            <div class="panel">
+                <div class="panel-header"><h3>机型分布</h3></div>
+                <div id="chart-model" class="chart"></div>
+            </div>
+            <div class="panel">
+                <div class="panel-header"><h3>机房分布</h3></div>
+                <div id="chart-location" class="chart"></div>
+            </div>
+        </section>
+
+        <section class="grid-row">
+            <div class="panel wide">
+                <div class="panel-header"><h3>主机实时状态</h3></div>
+                <div class="table-wrap">
+                    <table id="host-table">
+                        <thead>
+                            <tr>
+                                <th>主机</th>
+                                <th>机型</th>
+                                <th>机房/机柜</th>
+                                <th>负责人</th>
+                                <th>CPU(%)</th>
+                                <th>内存(%)</th>
+                                <th>负载</th>
+                                <th>磁盘(%)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>TOP 排行</h3>
+                    <select id="rank-metric"></select>
+                </div>
+                <div id="chart-rank" class="chart"></div>
+            </div>
+        </section>
+
+        <section class="grid-row">
+            <div class="panel wide">
+                <div class="panel-header"><h3>磁盘使用率热力图（最新采集）</h3></div>
+                <div id="chart-disk-heatmap" class="chart"></div>
+            </div>
+            <div class="panel">
+                <div class="panel-header"><h3>网络流量趋势</h3></div>
+                <div id="chart-network" class="chart"></div>
+            </div>
+        </section>
+
+        <section class="grid-row">
+            <div class="panel full">
+                <div class="panel-header"><h3>告警明细</h3></div>
+                <div class="table-wrap">
+                    <table id="alert-table">
+                        <thead>
+                            <tr>
+                                <th>主机</th>
+                                <th>机型</th>
+                                <th>机房</th>
+                                <th>CPU(%)</th>
+                                <th>内存(%)</th>
+                                <th>负载</th>
+                                <th>磁盘(%)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
