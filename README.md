@@ -4,12 +4,12 @@
 
 ## 数据说明
 
-| 文件名 | 说明 | 行数 |
-| --- | --- | --- |
-| `host_detail.dat` | 主机档案表（20 台主机） | 20 |
-| `mod_detail.dat` | 指标字典表（55 种监控指标） | 55 |
-| `disk_tsar.dat` | 磁盘采集流水（每 5 分钟） | 1.2 万 |
-| `pref_tsar.dat` | 性能采集流水（每 1 小时） | 6.7 万 |
+| 文件名            | 说明                        | 行数   |
+| ----------------- | --------------------------- | ------ |
+| `host_detail.dat` | 主机档案表（20 台主机）     | 20     |
+| `mod_detail.dat`  | 指标字典表（55 种监控指标） | 55     |
+| `disk_tsar.dat`   | 磁盘采集流水（每 5 分钟）   | 1.2 万 |
+| `pref_tsar.dat`   | 性能采集流水（每 1 小时）   | 6.7 万 |
 
 ## 技术栈
 
@@ -25,11 +25,21 @@ pip install -r requirements.txt
 
 > 已安装：`Flask`、`PyMySQL`。
 
-## 数据入库
+## 配置数据库
 
-确认 Docker MySQL 已启动（容器名 `mysql8`，端口 `3306`，root 密码 `123456`）：
+拷贝环境变量示例文件并根据实际情况修改：
 
 ```bash
+cp .env.example .env
+```
+
+编辑 `.env`，填入你的 MySQL 连接信息（Docker 容器名 `mysql8`，端口 `3306`）。
+
+## 数据入库
+
+```bash
+# 先设置环境变量
+export DB_HOST=127.0.0.1 DB_PORT=3306 DB_USER=root DB_PASSWORD=your_password DB_NAME=datacenter
 python etl.py
 ```
 
@@ -57,11 +67,11 @@ python app.py
 
 ## 效果预览
 
-**上半部分** — KPI、指标趋势、分布饼图、主机状态
+**上半部分** — KPI、指标趋势、分布饼图、主机状态、TOP 排行、磁盘热力图、网络流量
 
 ![上半部分](screenshot/photo1.png)
 
-**下半部分** — TOP 排行、磁盘热力图、网络流量、告警明细
+**下半部分** — 告警明细
 
 ![下半部分](screenshot/photo2.png)
 
